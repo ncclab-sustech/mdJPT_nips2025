@@ -1,3 +1,8 @@
 {
-    "wolf.disableHotModeWarning": true
+    "wolf.disableHotModeWarning": true,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#1F3220",
+        "titleBar.activeBackground": "#2B462D",
+        "titleBar.activeForeground": "#F9FBF9"
+    }
 }

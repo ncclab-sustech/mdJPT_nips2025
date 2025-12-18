@@ -1,0 +1,783 @@
+log:
+  run_name: norelu_DATASET_loo_SEEDV
+  mlp_cp_dir: mlp_cp
+data_cfg_list: null
+train:
+  parallel: true
+  seed: 19260832
+  n_fold: 1
+  n_pairs: 1024
+  n_gpu_use: 2
+  iftest: false
+  lr: 0.0005
+  wd: 0.0001
+  loss_temp: 0.07
+  max_epochs: 20
+  min_epochs: 1
+  num_workers: 127
+  save_interval: 5
+  loss:
+    clisa_loss: true
+    temp: 0.07
+    CDA_loss: true
+    CDA_factor: 0.01
+    to_riem: false
+val:
+  n_fold: 1->3
+  extractor:
+    use_pretrain: true
+    ckpt_epoch: 20
+    reverse: true
+    normTrain: false
+    batch_size: 64
+    fea_mode: me
+    rn_decay: 0.99
+    LDS: true
+  mlp:
+    seed: 19260817
+    lr: 0.0005
+    wd: 0.0022
+    hidden_dim: 128
+    out_dim: ${data_val.n_class}
+    batch_size: 256
+    max_epochs: 8
+    min_epochs: 2
+    num_workers: ${train.num_workers}
+model:
+  encoder: MLLA
+  cnn:
+    n_timeFilters: 16
+    timeFilterLen: 30
+    n_msFilters: 4
+    msFilter_timeLen: 3
+    n_channs: 64
+    dilation_array:
+    - 1
+    - 3
+    - 6
+    - 12
+    seg_att: 15
+    avgPoolLen: 15
+    timeSmootherLen: 3
+    multiFact: 1
+    stratified:
+    - initial
+    - middle1
+    - middle2
+    activ: softmax
+    temp: 1.0
+    saveFea: false
+    has_att: true
+    extract_mode: ${val.extractor.fea_mode}
+    global_att: false
+  TST_single:
+    n_heads: 1
+    patch_len: 32
+    patch_stride: 4
+    n_channs: 1
+    cnn:
+      n_timeFilters: 16
+      timeFilterLen: 30
+      n_msFilters: 4
+      msFilter_timeLen: 3
+      n_channs: 64
+      dilation_array:
+      - 1
+      - 3
+      - 6
+      - 12
+      seg_att: 15
+      avgPoolLen: 15
+      timeSmootherLen: 3
+      multiFact: 1
+      stratified:
+      - initial
+      - middle1
+      - middle2
+      activ: softmax
+      temp: 1.0
+      saveFea: false
+      has_att: true
+      extract_mode: ${val.extractor.fea_mode}
+      global_att: false
+  MLLA:
+    patch_size: 32
+    patch_stride: 6
+    hidden_dim: 128
+    out_dim: 32
+    depth: 2
+    n_heads: 8
+    uni_channels:
+    - FP1
+    - FPZ
+    - FP2
+    - AF3
+    - AF4
+    - F7
+    - F5
+    - F3
+    - F1
+    - FZ
+    - F2
+    - F4
+    - F6
+    - F8
+    - FT7
+    - FC5
+    - FC3
+    - FC1
+    - FCZ
+    - FC2
+    - FC4
+    - FC6
+    - FT8
+    - T7
+    - C5
+    - C3
+    - C1
+    - CZ
+    - C2
+    - C4
+    - C6
+    - T8
+    - TP7
+    - CP5
+    - CP3
+    - CP1
+    - CPZ
+    - CP2
+    - CP4
+    - CP6
+    - TP8
+    - P7
+    - P5
+    - P3
+    - P1
+    - PZ
+    - P2
+    - P4
+    - P6
+    - P8
+    - PO7
+    - PO5
+    - PO3
+    - POZ
+    - PO4
+    - PO6
+    - PO8
+    - O1
+    - OZ
+    - O2
+    cnn:
+      n_timeFilters: 32
+      timeFilterLen: 30
+      n_msFilters: 4
+      msFilter_timeLen: 3
+      n_channs: 64
+      dilation_array:
+      - 1
+      - 3
+      - 6
+      - 12
+      seg_att: 15
+      avgPoolLen: 15
+      timeSmootherLen: 3
+      multiFact: 1
+      stratified:
+      - initial
+      - middle1
+      - middle2
+      activ: softmax
+      temp: 1.0
+      saveFea: false
+      has_att: true
+      extract_mode: ${val.extractor.fea_mode}
+      global_att: false
+  Transformer:
+    dim: 128
+    out_dim: 32
+    n_heads: 2
+data_0:
+  dataset_name: SEED
+  data_dir: /mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED/Processed_data_filter_0.50_47.00_AutoICA_Cus_Threshold
+  fs: 125
+  n_channs: 60
+  n_session: 3
+  n_subs: 15
+  n_vids: 15
+  n_class: 3
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 5
+  timeStep2: 2
+  val_subs_all:
+  - - 5
+    - 6
+    - 4
+  - - 10
+    - 8
+    - 14
+  - - 1
+    - 3
+    - 11
+  - - 2
+    - 7
+    - 0
+  - - 4
+    - 13
+    - 1
+  - - 14
+    - 11
+    - 12
+  channels:
+  - FP1
+  - FPZ
+  - FP2
+  - AF3
+  - AF4
+  - F7
+  - F5
+  - F3
+  - F1
+  - FZ
+  - F2
+  - F4
+  - F6
+  - F8
+  - FT7
+  - FC5
+  - FC3
+  - FC1
+  - FCZ
+  - FC2
+  - FC4
+  - FC6
+  - FT8
+  - T7
+  - C5
+  - C3
+  - C1
+  - CZ
+  - C2
+  - C4
+  - C6
+  - T8
+  - TP7
+  - CP5
+  - CP3
+  - CP1
+  - CPZ
+  - CP2
+  - CP4
+  - CP6
+  - TP8
+  - P7
+  - P5
+  - P3
+  - P1
+  - PZ
+  - P2
+  - P4
+  - P6
+  - P8
+  - PO7
+  - PO5
+  - PO3
+  - POZ
+  - PO4
+  - PO6
+  - PO8
+  - O1
+  - OZ
+  - O2
+data_1:
+  dataset_name: SEEDIV
+  data_dir: /mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED-IV-new/Processed_MAT
+  fs: 125
+  n_channs: 62
+  n_session: 3
+  n_subs: 15
+  n_vids: 24
+  n_class: 4
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 1
+  timeStep2: 1
+  val_subs_all:
+  - - 5
+    - 6
+    - 4
+  - - 10
+    - 8
+    - 14
+  - - 1
+    - 3
+    - 11
+  - - 2
+    - 7
+    - 0
+  - - 4
+    - 13
+    - 1
+  - - 14
+    - 11
+    - 12
+  channels:
+  - FP1
+  - FPZ
+  - FP2
+  - AF3
+  - AF4
+  - F7
+  - F5
+  - F3
+  - F1
+  - FZ
+  - F2
+  - F4
+  - F6
+  - F8
+  - FT7
+  - FC5
+  - FC3
+  - FC1
+  - FCZ
+  - FC2
+  - FC4
+  - FC6
+  - FT8
+  - T7
+  - C5
+  - C3
+  - C1
+  - CZ
+  - C2
+  - C4
+  - C6
+  - T8
+  - TP7
+  - CP5
+  - CP3
+  - CP1
+  - CPZ
+  - CP2
+  - CP4
+  - CP6
+  - TP8
+  - P7
+  - P5
+  - P3
+  - P1
+  - PZ
+  - P2
+  - P4
+  - P6
+  - P8
+  - PO7
+  - PO5
+  - PO3
+  - POZ
+  - PO4
+  - PO6
+  - PO8
+  - CB1
+  - O1
+  - OZ
+  - O2
+  - CB2
+data_2:
+  dataset_name: SEEDVII
+  data_dir: /mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED-VII/Processed_MAT
+  fs: 125
+  n_channs: 62
+  n_session: 4
+  n_subs: 20
+  n_vids: 20
+  n_class: 7
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 5
+  timeStep2: 2
+  val_subs_all:
+  - - 3
+    - 4
+    - 5
+    - 6
+    - 10
+  - - 2
+    - 5
+    - 11
+    - 13
+    - 15
+  - - 15
+    - 16
+    - 17
+    - 18
+    - 19
+  - - 0
+    - 3
+    - 6
+    - 9
+    - 12
+  - - 0
+    - 1
+    - 2
+    - 17
+    - 19
+  - - 0
+    - 9
+    - 11
+    - 12
+    - 18
+  channels:
+  - FP1
+  - FPZ
+  - FP2
+  - AF3
+  - AF4
+  - F7
+  - F5
+  - F3
+  - F1
+  - FZ
+  - F2
+  - F4
+  - F6
+  - F8
+  - FT7
+  - FC5
+  - FC3
+  - FC1
+  - FCZ
+  - FC2
+  - FC4
+  - FC6
+  - FT8
+  - T7
+  - C5
+  - C3
+  - C1
+  - CZ
+  - C2
+  - C4
+  - C6
+  - T8
+  - TP7
+  - CP5
+  - CP3
+  - CP1
+  - CPZ
+  - CP2
+  - CP4
+  - CP6
+  - TP8
+  - P7
+  - P5
+  - P3
+  - P1
+  - PZ
+  - P2
+  - P4
+  - P6
+  - P8
+  - PO7
+  - PO5
+  - PO3
+  - POZ
+  - PO4
+  - PO6
+  - PO8
+  - CB1
+  - O1
+  - OZ
+  - O2
+  - CB2
+data_3:
+  dataset_name: FACED
+  data_dir: /mnt/dataset0/xinke/nsy/Faced_blink_only
+  fs: 125
+  n_channs: 30
+  n_session: 1
+  n_subs: 20
+  n_vids: 28
+  n_class: 9
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 5
+  timeStep2: 2
+  class_names:
+  - Anger
+  - Disgust
+  - Fear
+  - Sadness
+  - neutral
+  - Amusement
+  - Inspiration
+  - Joy
+  - Tenderness
+  class_proj:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  channels:
+  - FP1
+  - FP2
+  - FZ
+  - F3
+  - F4
+  - F7
+  - F8
+  - FC1
+  - FC2
+  - FC5
+  - FC6
+  - CZ
+  - C3
+  - C4
+  - T7
+  - T8
+  - CP1
+  - CP2
+  - CP5
+  - CP6
+  - PZ
+  - P3
+  - P4
+  - P7
+  - P8
+  - PO3
+  - PO4
+  - OZ
+  - O1
+  - O2
+  val_subs_all:
+  - - 3
+    - 4
+    - 5
+    - 6
+    - 10
+  - - 2
+    - 5
+    - 11
+    - 13
+    - 15
+  - - 15
+    - 16
+    - 17
+    - 18
+    - 19
+  - - 0
+    - 3
+    - 6
+    - 9
+    - 12
+  - - 0
+    - 1
+    - 2
+    - 17
+    - 19
+  - - 0
+    - 9
+    - 11
+    - 12
+    - 18
+data_4:
+  dataset_name: DEAP
+  data_dir: /mnt/dataset0/qingzhu/AutoICA_Processed_EEG/DEAP/reordered_correct
+  fs: 125
+  n_channs: 32
+  n_session: 1
+  n_subs: 32
+  n_vids: 40
+  n_class: 2
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 5
+  timeStep2: 2
+  channels:
+  - FP1
+  - AF3
+  - F7
+  - F3
+  - FC1
+  - FC5
+  - T7
+  - C3
+  - CP1
+  - CP5
+  - P7
+  - P3
+  - PZ
+  - PO3
+  - O1
+  - OZ
+  - O2
+  - PO4
+  - P4
+  - P8
+  - CP6
+  - CP2
+  - C4
+  - T8
+  - FC6
+  - FC2
+  - F4
+  - F8
+  - AF4
+  - FP2
+  - FZ
+  - CZ
+  val_subs_all:
+  - - 28
+    - 1
+    - 10
+    - 13
+    - 30
+    - 6
+    - 15
+    - 0
+  - - 13
+    - 30
+    - 24
+    - 8
+    - 12
+    - 18
+    - 28
+    - 17
+  - - 18
+    - 17
+    - 25
+    - 2
+    - 11
+    - 3
+    - 30
+    - 27
+  - - 13
+    - 17
+    - 15
+    - 27
+    - 5
+    - 1
+    - 16
+    - 31
+  - - 12
+    - 30
+    - 22
+    - 9
+    - 31
+    - 7
+    - 18
+    - 26
+  - - 26
+    - 28
+    - 6
+    - 10
+    - 29
+    - 9
+    - 24
+    - 1
+data_val:
+  dataset_name: SEEDV
+  data_dir: /mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED_V/Processed_data_filter_0.50_47.00_AutoICA_Def_Threshold/data_3in1
+  fs: 125
+  n_channs: 60
+  n_session: 3
+  n_subs: 16
+  n_vids: 15
+  n_class: 5
+  timeLen: 5
+  timeStep: 2
+  timeLen2: 5
+  timeStep2: 2
+  val_subs_all:
+  - - 0
+    - 5
+    - 11
+    - 15
+  - - 12
+    - 7
+    - 14
+    - 13
+  - - 4
+    - 9
+    - 2
+    - 3
+  - - 1
+    - 6
+    - 10
+    - 8
+  - - 6
+    - 0
+    - 8
+    - 9
+  - - 13
+    - 11
+    - 12
+    - 2
+  channels:
+  - FP1
+  - FPZ
+  - FP2
+  - AF3
+  - AF4
+  - F7
+  - F5
+  - F3
+  - F1
+  - FZ
+  - F2
+  - F4
+  - F6
+  - F8
+  - FT7
+  - FC5
+  - FC3
+  - FC1
+  - FCZ
+  - FC2
+  - FC4
+  - FC6
+  - FT8
+  - T7
+  - C5
+  - C3
+  - C1
+  - CZ
+  - C2
+  - C4
+  - C6
+  - T8
+  - TP7
+  - CP5
+  - CP3
+  - CP1
+  - CPZ
+  - CP2
+  - CP4
+  - CP6
+  - TP8
+  - P7
+  - P5
+  - P3
+  - P1
+  - PZ
+  - P2
+  - P4
+  - P6
+  - P8
+  - PO7
+  - PO5
+  - PO3
+  - POZ
+  - PO4
+  - PO6
+  - PO8
+  - O1
+  - OZ
+  - O2

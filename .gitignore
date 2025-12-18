@@ -1,4 +1,3 @@
-log/
 log_qua/
 log_trinity/
 log_small/
@@ -6,8 +5,8 @@ log_cov_factor/
 wandb/
 log_cov_factor_4_fold/
 doc/
+mlp_cp
 *.pyc
-*.ckpt
 *.png
 *.mat
 *.log

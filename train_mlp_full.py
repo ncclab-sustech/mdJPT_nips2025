@@ -59,6 +59,7 @@ def train_mlp(cfg: DictConfig) -> None:
             + (f"epoch={(cfg.val.extractor.ckpt_epoch-1):02d}.ckpt" if cfg.val.extractor.use_pretrain else "")
             + f"{cfg.val.extractor.fea_mode}.npy"
         )
+        print(f'Using feature path: {save_path}')
         data = np.load(save_path)
         data = np.nan_to_num(data)
         data = data.reshape(cfg.data_val.n_subs, -1, data.shape[-1])
