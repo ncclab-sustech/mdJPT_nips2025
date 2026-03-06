@@ -1,0 +1,129 @@
+
+defaults:
+  - _self_
+  - data@data_0: SEED # dataset 0 used in pretrain
+  - data@data_1: None # dataset 1 used in pretrain
+  - data@data_2: None # dataset 2 used in pretrain
+  - data@data_3: None # dataset 3 used in pretrain
+  - data@data_4: None # dataset 4 used in pretrain
+  - data@data_val: SEEDV # dataset used for validation (emotion classification)
+
+# all available dataset:
+#   - SEED
+#   - SEEDIV
+#   - SEEDV
+#   - SEEDVII
+#   - FACED_blink_only_small (FACED, elimenated blink ICA component, only sub 1-20)
+#   - DEAP
+log:
+  run_name: 'pretrain' # pretrained ckpt saved in log/{run_name}
+  mlp_cp_dir: 'mlp_cp' # mlp classifier saved in {mlp_cp}/{run_name}
+
+data_cfg_list:
+
+train:
+  parallel: True
+  seed: 19260832
+  n_fold: 1
+  n_pairs: 1024
+  n_gpu_use: 2
+  iftest: False
+  lr: 5e-4
+  wd: 0.0001
+  loss_temp: 0.07
+  max_epochs: 3
+  min_epochs: 1
+  num_workers: 127
+  save_interval: 1
+  loss:
+    clisa_loss: True
+    temp: 0.07
+    CDA_loss: True
+    CDA_factor: 1e-2
+    to_riem: False
+
+val:
+  n_fold: '1->3' # 'loo' for leave-one-subject-out validation
+  extractor:
+    use_pretrain: True # False to extract DE feature baseline from raw EEG
+    ckpt_epoch: 20 # epoch of pretrain model ckpt used to extract feature
+    reverse: True # swap val and train sub or not
+    normTrain: False
+    batch_size: 64
+    fea_mode: 'me'
+    rn_decay: 0.990
+    LDS: True
+  mlp:
+    seed: 19260817
+    lr: 0.0005  #0.0005
+    wd: 0.0022   #0.001-0.005
+    hidden_dim: 128
+    out_dim: ${data_val.n_class}
+    batch_size: 256
+    max_epochs: 8
+    min_epochs: 2
+    num_workers: ${train.num_workers}
+  
+model:
+  encoder: 'MLLA'
+  cnn: # parameter for CNN baseline
+    n_timeFilters: 16
+    timeFilterLen: 30
+    n_msFilters: 4
+    msFilter_timeLen: 3
+    n_channs: 64
+    dilation_array: [1,3,6,12]
+    seg_att: 15
+    avgPoolLen: 15
+    timeSmootherLen: 3
+    multiFact: 1
+    stratified: ['initial', 'middle1', 'middle2']
+    activ: 'softmax'
+    temp: 1.0
+    saveFea: False
+    has_att: True
+    extract_mode: '${val.extractor.fea_mode}'
+    global_att: False
+  MLLA: # parameter for MLLA encoder
+    patch_size: 32
+    patch_stride: 6
+    hidden_dim: 128
+    out_dim: 32
+    depth: 2
+    n_heads: 8
+    uni_channels: [
+      "FP1", "FPZ", "FP2",
+      "AF3", "AF4",
+      "F7", "F5", "F3", "F1", "FZ", 
+      "F2", "F4", "F6", "F8",
+      "FT7", "FC5", "FC3", "FC1", "FCZ",
+      "FC2", "FC4", "FC6", "FT8",
+      "T7", "C5", "C3", "C1", "CZ",
+      "C2", "C4", "C6", "T8",
+      "TP7", "CP5", "CP3", "CP1", "CPZ",
+      "CP2", "CP4", "CP6", "TP8",
+      "P7", "P5", "P3", "P1", "PZ",
+      "P2", "P4", "P6", "P8",
+      "PO7", "PO5", "PO3", "POZ",
+      "PO4", "PO6", "PO8",
+      "O1", "OZ", "O2"
+    ]
+    cnn:
+      n_timeFilters: 32
+      timeFilterLen: 30
+      n_msFilters: 4
+      msFilter_timeLen: 3
+      n_channs: 64
+      dilation_array: [1,3,6,12]
+      seg_att: 15
+      avgPoolLen: 15
+      timeSmootherLen: 3
+      multiFact: 1
+      stratified: ['initial', 'middle1', 'middle2']
+      activ: 'softmax'
+      temp: 1.0
+      saveFea: False
+      has_att: True
+      extract_mode: '${val.extractor.fea_mode}'
+      global_att: False
+

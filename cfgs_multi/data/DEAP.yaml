@@ -1,0 +1,30 @@
+dataset_name: 'DEAP'
+data_dir: '/mnt/dataset0/qingzhu/AutoICA_Processed_EEG/DEAP/reordered_correct'
+fs: 125
+n_channs: 32
+n_session: 1
+n_subs: 32
+n_vids: 40
+n_class: 2
+
+# changeable
+timeLen: 5
+timeStep: 2
+timeLen2: 5
+timeStep2: 2
+
+channels: [
+    "FP1", "AF3", "F7", "F3", "FC1",
+    "FC5", "T7", "C3", "CP1", "CP5",
+    "P7", "P3", "PZ", "PO3", "O1",
+    "OZ", "O2", "PO4", "P4", "P8",
+    "CP6", "CP2", "C4", "T8", "FC6",
+    "FC2", "F4", "F8", "AF4", "FP2",
+    "FZ", "CZ"
+]
+val_subs_all: [[28, 1, 10, 13, 30, 6, 15, 0],
+ [13, 30, 24, 8, 12, 18, 28, 17],
+ [18, 17, 25, 2, 11, 3, 30, 27],
+ [13, 17, 15, 27, 5, 1, 16, 31],
+ [12, 30, 22, 9, 31, 7, 18, 26],
+ [26, 28, 6, 10, 29, 9, 24, 1]]

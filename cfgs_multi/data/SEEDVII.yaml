@@ -1,0 +1,41 @@
+dataset_name: 'SEEDVII'
+data_dir: '/mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED-VII/Processed_MAT'
+fs: 125
+n_channs: 62
+n_session: 4
+n_subs: 20
+n_vids: 20
+n_class: 7
+
+# changeable
+timeLen: 5
+timeStep: 2
+timeLen2: 5
+timeStep2: 2
+
+val_subs_all: [
+    [3,4,5,6,10],
+ [2,5,11,13,15],
+ [15,16,17,18,19],
+ [0,3,6,9,12],
+ [0,1,2,17,19],
+ [0,9,11,12,18],]
+
+
+channels: [
+    "FP1", "FPZ", "FP2",
+    "AF3", "AF4",
+    "F7", "F5", "F3", "F1", "FZ", 
+    "F2", "F4", "F6", "F8",
+    "FT7", "FC5", "FC3", "FC1", "FCZ",
+    "FC2", "FC4", "FC6", "FT8",
+    "T7", "C5", "C3", "C1", "CZ",
+    "C2", "C4", "C6", "T8",
+    "TP7", "CP5", "CP3", "CP1", "CPZ",
+    "CP2", "CP4", "CP6", "TP8",
+    "P7", "P5", "P3", "P1", "PZ",
+    "P2", "P4", "P6", "P8",
+    "PO7", "PO5", "PO3", "POZ",
+    "PO4", "PO6", "PO8",
+    "CB1", "O1", "OZ", "O2", "CB2"
+]

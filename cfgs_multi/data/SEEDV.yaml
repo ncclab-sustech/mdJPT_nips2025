@@ -1,0 +1,60 @@
+dataset_name: 'SEEDV'
+data_dir: '/mnt/dataset0/qingzhu/AutoICA_Processed_EEG/SEED_V/Processed_data_filter_0.50_47.00_AutoICA_Def_Threshold/data_3in1'
+fs: 125
+n_channs: 60
+n_session: 3
+n_subs: 16
+n_vids: 15
+n_class: 5
+
+# changeable
+timeLen: 5
+timeStep: 2
+timeLen2: 5
+timeStep2: 2
+
+# val_subs_all: [[0, 1, 2, 3],
+#  [4, 5, 6, 7],
+#  [8, 9, 10, 11],
+#  [12, 13, 14, 15]]
+
+val_subs_all: [[0, 5, 11, 15],
+ [12, 7, 14, 13],
+ [4, 9, 2, 3],
+ [1, 6, 10, 8],
+ [6, 0, 8, 9],
+ [13, 11, 12, 2],]
+
+
+# import random
+# def generate_train_val_sets(n_sub, n_fold, k_sample):
+#     # 每次折叠的验证集大小
+#     fold_size = n_sub // n_fold
+#     subsets = list(range(n_sub))  # 所有子集的索引
+#     val_subs_all = []
+#     for _ in range(k_sample):
+#         # 随机选择n_fold个验证集的索引
+#         random.shuffle(subsets)  # 打乱顺序
+#         for i in range(n_fold):
+#             # 验证集为当前fold的元素，训练集为其他元素
+#             val_sub = subsets[i * fold_size : (i + 1) * fold_size]
+#             train_sub = [x for x in subsets if x not in val_sub]
+#             result.append(val_sub)
+#     return val_subs_all
+channels: [
+    "FP1", "FPZ", "FP2",
+    "AF3", "AF4",
+    "F7", "F5", "F3", "F1", "FZ", 
+    "F2", "F4", "F6", "F8",
+    "FT7", "FC5", "FC3", "FC1", "FCZ",
+    "FC2", "FC4", "FC6", "FT8",
+    "T7", "C5", "C3", "C1", "CZ",
+    "C2", "C4", "C6", "T8",
+    "TP7", "CP5", "CP3", "CP1", "CPZ",
+    "CP2", "CP4", "CP6", "TP8",
+    "P7", "P5", "P3", "P1", "PZ",
+    "P2", "P4", "P6", "P8",
+    "PO7", "PO5", "PO3", "POZ",
+    "PO4", "PO6", "PO8",
+    "O1", "OZ", "O2",
+]

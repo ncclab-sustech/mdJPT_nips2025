@@ -1,0 +1,14 @@
+dataset_name: 'AMIGOS'
+data_dir: '/mnt/dataset0/qingzhu/AutoICA_Processed_EEG/AMIGOS/Processed_MAT'
+fs: 125
+n_channs: 14
+n_session: 1
+n_subs: 40
+n_vids: 20
+n_class: 5
+
+# changeable
+timeLen: 5
+timeStep: 2
+timeLen2: 1
+timeStep2: 1
